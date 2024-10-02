@@ -18,4 +18,6 @@ conda create -n yolov11env python=3.10 -y
 conda activate yolov11env
 
 python -m pip install --upgrade pip
-conda install -c pytorch -c nvidia -c conda-forge pytorch torchvision pytorch-cuda ultralytics supervision chardet -y
+conda install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c nvidia -y
+pip install ultralytics==8.3.0
+pip install chardet
