@@ -1,12 +1,23 @@
 #!/bin/bash
 
-conda create -n yolov8env python=3.10 -y
-source activate yolov8env
+ARCH=$(uname -m)
+
+if [ "$ARCH" == "x86_64" ]; then
+    MINICONDA_URL="https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh"
+elif [ "$ARCH" == "aarch64" ]; then
+    MINICONDA_URL="https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-aarch64.sh"
+else
+    exit 1
+fi
+
+wget $MINICONDA_URL -O Miniconda3-latest-Linux.sh
+bash Miniconda3-latest-Linux.sh -b -p $HOME/miniconda3
+eval "$($HOME/miniconda3/bin/conda shell.bash hook)"
+
+conda create -n yolov11env python=3.10 -y
+conda activate yolov11env
 
 python -m pip install --upgrade pip
-
-pip install ultralytics==8.3.0 supervision inference
-conda install pytorch==2.4.0 torchvision==0.19.0 torchaudio==2.4.0 pytorch-cuda=12.4 -c pytorch -c nvidia -y
+conda install pytorch torchvision torchaudio pytorch-cuda=12.4 -c pytorch -c nvidia -y
+pip install ultralytics==8.3.0
 pip install chardet
-
-echo "miniconda & yolov8env created and installed dependencies"
